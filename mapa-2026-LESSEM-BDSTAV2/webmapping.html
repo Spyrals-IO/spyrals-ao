@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StationoScope V2 - INRAE LESSEM</title>
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            padding-left: 2.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input::placeholder {
+            color: #666;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 420px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .filters {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-label {
+            display: block;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            background: white;
+            font-size: 0.9rem;
+        }
+
+        .legend {
+            padding: 1.5rem;
+        }
+
+        .legend-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .map-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-button {
+            background: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+
+        .control-button:hover {
+            background: #f8f9fa;
+            transform: translateY(-1px);
+        }
+
+        .info-panel {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 300px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+
+        .info-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-content {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                left: -100%;
+                top: 0;
+                height: 100%;
+                z-index: 1000;
+                transition: left 0.3s;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .search-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">🏔️</div>
+            <div class="header-title">StationoScope V2</div>
+        </div>
+        
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input 
+                type="text" 
+                class="search-input" 
+                placeholder="Rechercher une station, commune, massif..."
+                id="searchInput"
+            >
+        </div>
+        
+        <div class="user-info">
+            <span>Interface publique</span>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Exploration cartographique</div>
+                <div class="sidebar-subtitle">Données stations de montagne - France</div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">Territoire d'affichage</label>
+                    <select class="filter-select" id="territoireFilter">
+                        <option value="france">France métropolitaine</option>
+                        <option value="alpes">Alpes</option>
+                        <option value="pyrenees">Pyrénées</option>
+                        <option value="vosges">Vosges</option>
+                        <option value="jura">Jura</option>
+                        <option value="massif-central">Massif Central</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Attribut à visualiser</label>
+                    <select class="filter-select" id="attributFilter">
+                        <option value="altitude">Altitude moyenne (m)</option>
+                        <option value="moment-puissance">Moment de puissance</option>
+                        <option value="nb-pistes">Nombre de pistes</option>
+                        <option value="enneigement">Jours d'enneigement (actuel)</option>
+                        <option value="projection-2050">Projection enneigement 2050</option>
+                        <option value="emploi">Emploi touristique</option>
+                        <option value="finances">Situation financière communes</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Type d'objets</label>
+                    <select class="filter-select" id="typeFilter">
+                        <option value="stations">Stations</option>
+                        <option value="communes">Communes support</option>
+                        <option value="autorites">Autorités organisatrices</option>
+                        <option value="tous">Tous</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-title">Légende - Altitude moyenne</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #2166ac;"></div>
+                    <span>≥ 2000m (haute altitude)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #5aae61;"></div>
+                    <span>1500-2000m (altitude moyenne)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #fee08b;"></div>
+                    <span>1000-1500m (moyenne montagne)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f46d43;"></div>
+                    <span>< 1000m (faible altitude)</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="map-container">
+            <div id="map"></div>
+            
+            <div class="map-controls">
+                <button class="control-button" onclick="toggleSidebar()" title="Masquer/Afficher le panneau">📋</button>
+                <button class="control-button" onclick="resetView()" title="Réinitialiser la vue">🎯</button>
+                <button class="control-button" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
+            </div>
+
+            <div class="info-panel" id="infoPanel">
+                <div class="info-title">Val Thorens</div>
+                <div class="info-content">
+                    <strong>Altitude :</strong> 2 300m (station la plus haute d'Europe)<br>
+                    <strong>Domaine :</strong> Les 3 Vallées<br>
+                    <strong>Commune :</strong> Saint-Martin-de-Belleville (73)<br>
+                    <strong>Moment de puissance :</strong> 125 000<br>
+                    <strong>Enneigement actuel :</strong> 140 jours/an<br>
+                    <strong>Projection 2050 :</strong> 115 jours/an (-18%)
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Configuration de la carte
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: {
+                version: 8,
+                sources: {
+                    'osm': {
+                        type: 'raster',
+                        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        attribution: '© OpenStreetMap contributors'
+                    }
+                },
+                layers: [
+                    {
+                        id: 'osm',
+                        type: 'raster',
+                        source: 'osm'
+                    }
+                ]
+            },
+            center: [6.1, 45.9],
+            zoom: 6.5
+        });
+
+        // Données des stations (exemple)
+        const stations = [
+            { name: "Val Thorens", coords: [6.5804, 45.2985], altitude: 2300, type: "haute", moment: 125000 },
+            { name: "Tignes", coords: [6.9076, 45.4669], altitude: 2100, type: "haute", moment: 95000 },
+            { name: "Chamonix", coords: [6.8694, 45.9237], altitude: 1035, type: "moyenne", moment: 110000 },
+            { name: "Courchevel", coords: [6.6349, 45.4198], altitude: 1850, type: "haute", moment: 98000 },
+            { name: "Méribel", coords: [6.5667, 45.3833], altitude: 1450, type: "moyenne", moment: 87000 },
+            { name: "La Plagne", coords: [6.6833, 45.5167], altitude: 1970, type: "haute", moment: 82000 },
+            { name: "Alpe d'Huez", coords: [6.0678, 45.0906], altitude: 1860, type: "haute", moment: 78000 },
+            { name: "Serre Chevalier", coords: [6.6167, 44.9167], altitude: 1400, type: "moyenne", moment: 65000 },
+            { name: "Font-Romeu", coords: [2.0317, 42.4986], altitude: 1800, type: "moyenne", moment: 25000 },
+            { name: "La Bresse", coords: [6.8667, 48.0167], altitude: 900, type: "faible", moment: 15000 }
+        ];
+
+        // Chargement de la carte
+        map.on('load', function () {
+            // Ajouter les points des stations
+            map.addSource('stations', {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: stations.map(station => ({
+                        type: 'Feature',
+                        properties: {
+                            name: station.name,
+                            altitude: station.altitude,
+                            type: station.type,
+                            moment: station.moment
+                        },
+                        geometry: {
+                            type: 'Point',
+                            coordinates: station.coords
+                        }
+                    }))
+                }
+            });
+
+            map.addLayer({
+                id: 'stations-layer',
+                type: 'circle',
+                source: 'stations',
+                paint: {
+                    'circle-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'altitude'],
+                        800, 6,
+                        2300, 12
+                    ],
+                    'circle-color': [
+                        'case',
+                        ['>=', ['get', 'altitude'], 2000], '#2166ac',
+                        ['>=', ['get', 'altitude'], 1500], '#5aae61',
+                        ['>=', ['get', 'altitude'], 1000], '#fee08b',
+                        '#f46d43'
+                    ],
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': 'white',
+                    'circle-opacity': 0.8
+                }
+            });
+
+            // Ajouter les labels
+            map.addLayer({
+                id: 'stations-labels',
+                type: 'symbol',
+                source: 'stations',
+                layout: {
+                    'text-field': ['get', 'name'],
+                    'text-font': ['Open Sans Regular'],
+                    'text-size': 11,
+                    'text-offset': [0, -2],
+                    'text-anchor': 'bottom'
+                },
+                paint: {
+                    'text-color': '#333',
+                    'text-halo-color': 'white',
+                    'text-halo-width': 1
+                }
+            });
+        });
+
+        // Interactions
+        map.on('click', 'stations-layer', function (e) {
+            const properties = e.features[0].properties;
+            const coords = e.features[0].geometry.coordinates;
+            
+            const infoPanel = document.getElementById('infoPanel');
+            const infoTitle = infoPanel.querySelector('.info-title');
+            const infoContent = infoPanel.querySelector('.info-content');
+            
+            infoTitle.textContent = properties.name;
+            infoContent.innerHTML = `
+                <strong>Altitude :</strong> ${properties.altitude}m<br>
+                <strong>Type :</strong> ${properties.type} altitude<br>
+                <strong>Moment de puissance :</strong> ${properties.moment.toLocaleString()}<br>
+                <em>Cliquez pour voir la fiche complète</em>
+            `;
+            
+            infoPanel.classList.add('visible');
+            
+            // Simuler l'ouverture d'une fiche
+            setTimeout(() => {
+                if (properties.name === "Val Thorens" || properties.name === "Chamonix") {
+                    window.open('fiche-site.html', '_blank');
+                }
+            }, 1500);
+        });
+
+        map.on('mouseenter', 'stations-layer', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        map.on('mouseleave', 'stations-layer', function () {
+            map.getCanvas().style.cursor = '';
+            document.getElementById('infoPanel').classList.remove('visible');
+        });
+
+        // Fonctions des contrôles
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function resetView() {
+            map.flyTo({
+                center: [6.1, 45.9],
+                zoom: 6.5,
+                duration: 1000
+            });
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Recherche
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            if (query.length > 2) {
+                const matches = stations.filter(s => 
+                    s.name.toLowerCase().includes(query)
+                );
+                
+                if (matches.length > 0) {
+                    const station = matches[0];
+                    map.flyTo({
+                        center: station.coords,
+                        zoom: 12,
+                        duration: 1000
+                    });
+                }
+            }
+        });
+
+        // Gestion des filtres
+        document.getElementById('attributFilter').addEventListener('change', function() {
+            // Simulation du changement d'attribut
+            const value = this.value;
+            console.log('Changement d\'attribut:', value);
+            // Ici, on mettrait à jour les couleurs de la carte
+        });
+    </script>
+</body>
+</html>
