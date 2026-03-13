@@ -40,6 +40,22 @@
             font-weight: 700;
         }
 
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
         .header-title {
             font-size: 1.2rem;
             font-weight: 600;
@@ -49,51 +65,81 @@
             flex: 1;
             max-width: 500px;
             margin: 0 2rem;
-            position: relative;
         }
 
-        .search-input {
+        .search-bar input {
             width: 100%;
-            padding: 0.75rem 1rem;
-            padding-left: 2.5rem;
+            padding: 0.6rem 1rem;
             border: none;
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            border-radius: 6px;
+            font-size: 0.95rem;
         }
 
-        .search-input::placeholder {
-            color: #666;
+        .btn-back {
+            color: #3498db;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid #3498db;
+            border-radius: 6px;
+            transition: all 0.2s;
         }
 
-        .search-icon {
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-            font-size: 1.1rem;
+        .btn-back:hover {
+            background: rgba(52, 152, 219, 0.1);
+            text-decoration: none;
         }
 
-        .user-info {
+        .auth-section {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .main-container {
             display: flex;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 70px);
+        }
+
+        #map {
+            flex: 1;
+            position: relative;
         }
 
         .sidebar {
-            width: 420px;
+            width: 380px;
             background: white;
-            border-right: 1px solid #e0e0e0;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         .sidebar-header {
@@ -101,157 +147,240 @@
             border-bottom: 1px solid #e0e0e0;
         }
 
-        .sidebar-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #333;
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            color: #2c3e50;
             margin-bottom: 0.5rem;
         }
 
-        .sidebar-subtitle {
-            color: #666;
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.6rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            text-align: center;
             font-size: 0.9rem;
+            border-radius: 4px;
+            transition: all 0.2s;
         }
 
-        .filters {
+        .tab.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .sidebar-content {
             padding: 1.5rem;
-            border-bottom: 1px solid #e0e0e0;
+            flex: 1;
         }
 
-        .filter-group {
+        .thematic-section {
             margin-bottom: 1.5rem;
         }
 
-        .filter-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .filter-label {
-            display: block;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .filter-select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 0.5rem;
-            background: white;
-            font-size: 0.9rem;
-        }
-
-        .legend {
-            padding: 1.5rem;
-        }
-
-        .legend-title {
+        .thematic-title {
+            font-size: 1rem;
             font-weight: 600;
-            color: #333;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .legend-item {
+            color: #2c3e50;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
-            margin-bottom: 0.75rem;
-            font-size: 0.8rem;
+            gap: 0.5rem;
         }
 
-        .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            margin-right: 0.75rem;
-            flex-shrink: 0;
-        }
-
-        .map-container {
-            flex: 1;
-            position: relative;
-        }
-
-        #map {
-            width: 100%;
-            height: 100%;
-        }
-
-        .map-controls {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
+        .attribute-list {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
         }
 
-        .control-button {
+        .attribute-item {
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .attribute-item:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+
+        .attribute-item.active {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+
+        .attribute-icon {
+            width: 24px;
+            height: 24px;
+            background: #3498db;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .legend {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .legend-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #2c3e50;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .map-control-btn {
+            width: 40px;
+            height: 40px;
             background: white;
             border: none;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             cursor: pointer;
-            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
             transition: all 0.2s;
         }
 
-        .control-button:hover {
+        .map-control-btn:hover {
             background: #f8f9fa;
-            transform: translateY(-1px);
         }
 
-        .info-panel {
+        .popup-preview {
             position: absolute;
-            bottom: 1rem;
-            right: 1rem;
+            bottom: 20px;
+            left: 20px;
             background: white;
             padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             max-width: 300px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s;
+            display: none;
         }
 
-        .info-panel.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .popup-preview.visible {
+            display: block;
         }
 
-        .info-title {
+        .popup-title {
             font-weight: 600;
-            color: #333;
+            color: #2c3e50;
             margin-bottom: 0.5rem;
         }
 
-        .info-content {
-            color: #666;
+        .popup-data {
             font-size: 0.9rem;
-            line-height: 1.4;
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+
+        .popup-link {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .popup-link:hover {
+            text-decoration: underline;
+        }
+
+        .basemap-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .basemap-option {
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .basemap-option:hover {
+            border-color: #3498db;
+        }
+
+        .basemap-option.active {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+
+        .basemap-preview {
+            width: 60px;
+            height: 40px;
+            border-radius: 4px;
+            background: #ddd;
         }
 
         @media (max-width: 768px) {
             .sidebar {
-                position: absolute;
-                left: -100%;
-                top: 0;
-                height: 100%;
-                z-index: 1000;
-                transition: left 0.3s;
-                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+                width: 100%;
+                height: 50vh;
             }
 
-            .sidebar.open {
-                left: 0;
+            .main-container {
+                flex-direction: column;
             }
 
             .search-bar {
                 display: none;
+            }
+
+            .breadcrumb {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -260,302 +389,244 @@
     <header class="header">
         <div class="header-left">
             <div class="logo">🏔️</div>
-            <div class="header-title">StationoScope V2</div>
+            <div class="breadcrumb">
+                <a href="index.html">Accueil</a>
+                <span>›</span>
+                <span>Interface de webmapping</span>
+            </div>
         </div>
-        
         <div class="search-bar">
-            <span class="search-icon">🔍</span>
-            <input 
-                type="text" 
-                class="search-input" 
-                placeholder="Rechercher une station, commune, massif..."
-                id="searchInput"
-            >
+            <input type="text" placeholder="Rechercher une station, une commune, un territoire...">
         </div>
-        
-        <div class="user-info">
-            <span>Interface publique</span>
-        </div>
+        <a href="index.html" class="btn-back">← Retour aux maquettes</a>
     </header>
 
     <div class="main-container">
-        <aside class="sidebar" id="sidebar">
+        <div id="map"></div>
+
+        <div class="map-controls">
+            <button class="map-control-btn" title="Zoom avant">+</button>
+            <button class="map-control-btn" title="Zoom arrière">−</button>
+            <button class="map-control-btn" title="Ma position">📍</button>
+        </div>
+
+        <div class="popup-preview visible">
+            <div class="popup-title">Alpe d'Huez</div>
+            <div class="popup-data"><strong>Type:</strong> Grande station</div>
+            <div class="popup-data"><strong>Moment de puissance:</strong> 45 230 km·pers/h</div>
+            <div class="popup-data"><strong>Altitude:</strong> 1860 - 3330 m</div>
+            <a href="fiche-site.html" class="popup-link">Voir la fiche complète →</a>
+        </div>
+
+        <aside class="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-title">Exploration cartographique</div>
-                <div class="sidebar-subtitle">Données stations de montagne - France</div>
-            </div>
-
-            <div class="filters">
-                <div class="filter-group">
-                    <label class="filter-label">Territoire d'affichage</label>
-                    <select class="filter-select" id="territoireFilter">
-                        <option value="france">France métropolitaine</option>
-                        <option value="alpes">Alpes</option>
-                        <option value="pyrenees">Pyrénées</option>
-                        <option value="vosges">Vosges</option>
-                        <option value="jura">Jura</option>
-                        <option value="massif-central">Massif Central</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label class="filter-label">Attribut à visualiser</label>
-                    <select class="filter-select" id="attributFilter">
-                        <option value="altitude">Altitude moyenne (m)</option>
-                        <option value="moment-puissance">Moment de puissance</option>
-                        <option value="nb-pistes">Nombre de pistes</option>
-                        <option value="enneigement">Jours d'enneigement (actuel)</option>
-                        <option value="projection-2050">Projection enneigement 2050</option>
-                        <option value="emploi">Emploi touristique</option>
-                        <option value="finances">Situation financière communes</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label class="filter-label">Type d'objets</label>
-                    <select class="filter-select" id="typeFilter">
-                        <option value="stations">Stations</option>
-                        <option value="communes">Communes support</option>
-                        <option value="autorites">Autorités organisatrices</option>
-                        <option value="tous">Tous</option>
-                    </select>
+                <h2>Explorer les données</h2>
+                <div class="tabs">
+                    <div class="tab active">Attributs</div>
+                    <div class="tab">Calques</div>
+                    <div class="tab">Fonds</div>
                 </div>
             </div>
 
-            <div class="legend">
-                <div class="legend-title">Légende - Altitude moyenne</div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #2166ac;"></div>
-                    <span>≥ 2000m (haute altitude)</span>
+            <div class="sidebar-content">
+                <div class="thematic-section">
+                    <div class="thematic-title">
+                        <span>⛷️</span>
+                        Domaine skiable / Remontées mécaniques
+                    </div>
+                    <div class="attribute-list">
+                        <div class="attribute-item active">
+                            <div class="attribute-icon">M</div>
+                            Moment de puissance
+                        </div>
+                        <div class="attribute-item">
+                            <div class="attribute-icon">⛰️</div>
+                            Altitude moyenne
+                        </div>
+                        <div class="attribute-item">
+                            <div class="attribute-icon">📊</div>
+                            Âge moyen du parc
+                        </div>
+                    </div>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #5aae61;"></div>
-                    <span>1500-2000m (altitude moyenne)</span>
+
+                <div class="thematic-section">
+                    <div class="thematic-title">
+                        <span>❄️</span>
+                        Enneigement
+                    </div>
+                    <div class="attribute-list">
+                        <div class="attribute-item">
+                            <div class="attribute-icon">📅</div>
+                            Nombre de jours skiables
+                        </div>
+                        <div class="attribute-item">
+                            <div class="attribute-icon">🌡️</div>
+                            Probabilité enneigement (+2°C)
+                        </div>
+                    </div>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #fee08b;"></div>
-                    <span>1000-1500m (moyenne montagne)</span>
+
+                <div class="thematic-section">
+                    <div class="thematic-title">
+                        <span>🏘️</span>
+                        Bâti
+                    </div>
+                    <div class="attribute-list">
+                        <div class="attribute-item">
+                            <div class="attribute-icon">📏</div>
+                            Surface développée
+                        </div>
+                        <div class="attribute-item">
+                            <div class="attribute-icon">🏗️</div>
+                            Indice de mitage
+                        </div>
+                    </div>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #f46d43;"></div>
-                    <span>< 1000m (faible altitude)</span>
+
+                <div class="legend">
+                    <div class="legend-title">Légende - Moment de puissance</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #d73027;"></div>
+                        <span>Très grande station (> 30 000)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fc8d59;"></div>
+                        <span>Grande station (10 000 - 30 000)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fee090;"></div>
+                        <span>Moyenne station (3 000 - 10 000)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #91bfdb;"></div>
+                        <span>Petite station (< 3 000)</span>
+                    </div>
                 </div>
             </div>
         </aside>
-
-        <main class="map-container">
-            <div id="map"></div>
-            
-            <div class="map-controls">
-                <button class="control-button" onclick="toggleSidebar()" title="Masquer/Afficher le panneau">📋</button>
-                <button class="control-button" onclick="resetView()" title="Réinitialiser la vue">🎯</button>
-                <button class="control-button" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
-            </div>
-
-            <div class="info-panel" id="infoPanel">
-                <div class="info-title">Val Thorens</div>
-                <div class="info-content">
-                    <strong>Altitude :</strong> 2 300m (station la plus haute d'Europe)<br>
-                    <strong>Domaine :</strong> Les 3 Vallées<br>
-                    <strong>Commune :</strong> Saint-Martin-de-Belleville (73)<br>
-                    <strong>Moment de puissance :</strong> 125 000<br>
-                    <strong>Enneigement actuel :</strong> 140 jours/an<br>
-                    <strong>Projection 2050 :</strong> 115 jours/an (-18%)
-                </div>
-            </div>
-        </main>
     </div>
 
     <script>
-        // Configuration de la carte
+        // Initialisation de la carte MapLibre
         const map = new maplibregl.Map({
             container: 'map',
             style: {
                 version: 8,
                 sources: {
-                    'osm': {
+                    'raster-tiles': {
                         type: 'raster',
                         tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
                         tileSize: 256,
                         attribution: '© OpenStreetMap contributors'
                     }
                 },
-                layers: [
-                    {
-                        id: 'osm',
-                        type: 'raster',
-                        source: 'osm'
-                    }
-                ]
+                layers: [{
+                    id: 'background',
+                    type: 'background',
+                    paint: {'background-color': '#e0e0e0'}
+                }, {
+                    id: 'simple-tiles',
+                    type: 'raster',
+                    source: 'raster-tiles',
+                    minzoom: 0,
+                    maxzoom: 22
+                }]
             },
-            center: [6.1, 45.9],
-            zoom: 6.5
+            center: [6.5, 45.5], // Alpes françaises
+            zoom: 7
         });
 
-        // Données des stations (exemple)
+        // Ajouter des marqueurs pour simuler des stations
         const stations = [
-            { name: "Val Thorens", coords: [6.5804, 45.2985], altitude: 2300, type: "haute", moment: 125000 },
-            { name: "Tignes", coords: [6.9076, 45.4669], altitude: 2100, type: "haute", moment: 95000 },
-            { name: "Chamonix", coords: [6.8694, 45.9237], altitude: 1035, type: "moyenne", moment: 110000 },
-            { name: "Courchevel", coords: [6.6349, 45.4198], altitude: 1850, type: "haute", moment: 98000 },
-            { name: "Méribel", coords: [6.5667, 45.3833], altitude: 1450, type: "moyenne", moment: 87000 },
-            { name: "La Plagne", coords: [6.6833, 45.5167], altitude: 1970, type: "haute", moment: 82000 },
-            { name: "Alpe d'Huez", coords: [6.0678, 45.0906], altitude: 1860, type: "haute", moment: 78000 },
-            { name: "Serre Chevalier", coords: [6.6167, 44.9167], altitude: 1400, type: "moyenne", moment: 65000 },
-            { name: "Font-Romeu", coords: [2.0317, 42.4986], altitude: 1800, type: "moyenne", moment: 25000 },
-            { name: "La Bresse", coords: [6.8667, 48.0167], altitude: 900, type: "faible", moment: 15000 }
+            { name: "Alpe d'Huez", coords: [6.0683, 45.0931], power: 45230 },
+            { name: "Les Deux Alpes", coords: [6.1253, 45.0117], power: 38500 },
+            { name: "Val d'Isère", coords: [6.9803, 45.4486], power: 52000 },
+            { name: "Chamonix", coords: [6.8694, 45.9237], power: 35000 },
+            { name: "La Plagne", coords: [6.6783, 45.5133], power: 48000 },
         ];
 
-        // Chargement de la carte
-        map.on('load', function () {
-            // Ajouter les points des stations
-            map.addSource('stations', {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: stations.map(station => ({
-                        type: 'Feature',
-                        properties: {
-                            name: station.name,
-                            altitude: station.altitude,
-                            type: station.type,
-                            moment: station.moment
-                        },
-                        geometry: {
-                            type: 'Point',
-                            coordinates: station.coords
-                        }
-                    }))
-                }
-            });
-
-            map.addLayer({
-                id: 'stations-layer',
-                type: 'circle',
-                source: 'stations',
-                paint: {
-                    'circle-radius': [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'altitude'],
-                        800, 6,
-                        2300, 12
-                    ],
-                    'circle-color': [
-                        'case',
-                        ['>=', ['get', 'altitude'], 2000], '#2166ac',
-                        ['>=', ['get', 'altitude'], 1500], '#5aae61',
-                        ['>=', ['get', 'altitude'], 1000], '#fee08b',
-                        '#f46d43'
-                    ],
-                    'circle-stroke-width': 2,
-                    'circle-stroke-color': 'white',
-                    'circle-opacity': 0.8
-                }
-            });
-
-            // Ajouter les labels
-            map.addLayer({
-                id: 'stations-labels',
-                type: 'symbol',
-                source: 'stations',
-                layout: {
-                    'text-field': ['get', 'name'],
-                    'text-font': ['Open Sans Regular'],
-                    'text-size': 11,
-                    'text-offset': [0, -2],
-                    'text-anchor': 'bottom'
-                },
-                paint: {
-                    'text-color': '#333',
-                    'text-halo-color': 'white',
-                    'text-halo-width': 1
-                }
-            });
-        });
-
-        // Interactions
-        map.on('click', 'stations-layer', function (e) {
-            const properties = e.features[0].properties;
-            const coords = e.features[0].geometry.coordinates;
+        stations.forEach(station => {
+            const color = station.power > 30000 ? '#d73027' : 
+                         station.power > 10000 ? '#fc8d59' : 
+                         station.power > 3000 ? '#fee090' : '#91bfdb';
             
-            const infoPanel = document.getElementById('infoPanel');
-            const infoTitle = infoPanel.querySelector('.info-title');
-            const infoContent = infoPanel.querySelector('.info-content');
-            
-            infoTitle.textContent = properties.name;
-            infoContent.innerHTML = `
-                <strong>Altitude :</strong> ${properties.altitude}m<br>
-                <strong>Type :</strong> ${properties.type} altitude<br>
-                <strong>Moment de puissance :</strong> ${properties.moment.toLocaleString()}<br>
-                <em>Cliquez pour voir la fiche complète</em>
+            const el = document.createElement('div');
+            el.className = 'marker';
+            el.style.cssText = `
+                width: 20px;
+                height: 20px;
+                background-color: ${color};
+                border: 2px solid white;
+                border-radius: 50%;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
             `;
-            
-            infoPanel.classList.add('visible');
-            
-            // Simuler l'ouverture d'une fiche
-            setTimeout(() => {
-                if (properties.name === "Val Thorens" || properties.name === "Chamonix") {
-                    window.open('fiche-site.html', '_blank');
-                }
-            }, 1500);
+
+            new maplibregl.Marker(el)
+                .setLngLat(station.coords)
+                .addTo(map);
         });
 
-        map.on('mouseenter', 'stations-layer', function () {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-
-        map.on('mouseleave', 'stations-layer', function () {
-            map.getCanvas().style.cursor = '';
-            document.getElementById('infoPanel').classList.remove('visible');
-        });
-
-        // Fonctions des contrôles
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        function resetView() {
-            map.flyTo({
-                center: [6.1, 45.9],
-                zoom: 6.5,
-                duration: 1000
-            });
-        }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        // Recherche
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase();
-            if (query.length > 2) {
-                const matches = stations.filter(s => 
-                    s.name.toLowerCase().includes(query)
-                );
+        // Gestion des onglets
+        document.querySelectorAll('.tab').forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
                 
-                if (matches.length > 0) {
-                    const station = matches[0];
-                    map.flyTo({
-                        center: station.coords,
-                        zoom: 12,
-                        duration: 1000
-                    });
+                const content = document.querySelector('.sidebar-content');
+                if (index === 1) {
+                    content.innerHTML = `
+                        <div class="thematic-section">
+                            <div class="thematic-title">Calques disponibles</div>
+                            <div class="attribute-list">
+                                <div class="attribute-item active">
+                                    <input type="checkbox" checked> Sites (stations)
+                                </div>
+                                <div class="attribute-item">
+                                    <input type="checkbox" checked> Communes supports
+                                </div>
+                                <div class="attribute-item">
+                                    <input type="checkbox"> Autorités organisatrices
+                                </div>
+                                <div class="attribute-item">
+                                    <input type="checkbox"> Limites administratives
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (index === 2) {
+                    content.innerHTML = `
+                        <div class="thematic-section">
+                            <div class="thematic-title">Fonds de carte</div>
+                            <div class="basemap-selector">
+                                <div class="basemap-option active">
+                                    <div class="basemap-preview" style="background: #e8e8e8;"></div>
+                                    <span>OpenStreetMap</span>
+                                </div>
+                                <div class="basemap-option">
+                                    <div class="basemap-preview" style="background: #c5e1a5;"></div>
+                                    <span>Satellite</span>
+                                </div>
+                                <div class="basemap-option">
+                                    <div class="basemap-preview" style="background: #f5f5dc;"></div>
+                                    <span>Topographique IGN</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    location.reload();
                 }
-            }
+            });
         });
 
-        // Gestion des filtres
-        document.getElementById('attributFilter').addEventListener('change', function() {
-            // Simulation du changement d'attribut
-            const value = this.value;
-            console.log('Changement d\'attribut:', value);
-            // Ici, on mettrait à jour les couleurs de la carte
+        // Gestion des attributs
+        document.querySelectorAll('.attribute-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.attribute-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
         });
     </script>
 </body>
