@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — Tickets Loisirs CAF 87</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            caf: { 50:'#eef4ff', 100:'#dae6ff', 200:'#bdd1ff', 300:'#90b2ff', 400:'#5d87ff', 500:'#3a62f5', 600:'#2544e8', 700:'#1d34d4', 800:'#1e2dac', 900:'#1e2d88', 950:'#161d54' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .nav-btn { transition: all .15s; }
+    .nav-btn.active { background: #1e2dac; color: white; }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Mini Navigation -->
+<div class="bg-caf-950 text-white px-4 py-2 sticky top-0 z-50 shadow-lg">
+  <div class="max-w-7xl mx-auto flex items-center gap-1 flex-wrap">
+    <a href="index.html" class="text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📋 Index</a>
+    <span class="text-xs text-caf-300 mx-2">|</span>
+    <a href="login.html" class="nav-btn active text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🔐</a>
+    <a href="activation.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">✉️</a>
+    <a href="allocataire.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">👤</a>
+    <a href="qr-gen.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🎫</a>
+    <a href="qr-display.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📱</a>
+    <a href="partenaire.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🏢</a>
+    <a href="scan.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📷</a>
+    <a href="backoffice.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">⚙️</a>
+    <a href="bo-partenaires.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📋</a>
+    <a href="bo-paiements.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">💳</a>
+  </div>
+</div>
+
+<!-- Login Screen -->
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-caf-950 via-caf-900 to-caf-700 p-4">
+  <div class="w-full max-w-md">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4">
+        <span class="text-2xl">🎫</span>
+      </div>
+      <h1 class="text-2xl font-bold text-white">Tickets Loisirs</h1>
+      <p class="text-caf-300 text-sm mt-1">CAF 87</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <!-- Tabs -->
+      <div class="flex border-b border-gray-100">
+        <button onclick="setTab('allocataire-tab')" class="tab-login flex-1 py-3 text-sm font-medium text-caf-700 border-b-2 border-caf-700 bg-caf-50">Allocataire</button>
+        <button onclick="setTab('partenaire-tab')" class="tab-login flex-1 py-3 text-sm font-medium text-gray-400">Partenaire</button>
+        <button onclick="setTab('agent-tab')" class="tab-login flex-1 py-3 text-sm font-medium text-gray-400">Agent CAF</button>
+      </div>
+      
+      <!-- Allocataire form -->
+      <div id="allocataire-tab" class="login-tab p-8">
+        <p class="text-sm text-gray-500 mb-6">Connectez-vous avec l'adresse email de votre dossier CAF.</p>
+        <div class="space-y-4">
+          <div>
+            <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide block mb-1">Adresse email</label>
+            <input type="email" value="marie.dupont@email.fr" class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-caf-500">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide block mb-1">Mot de passe</label>
+            <input type="password" value="••••••••••" class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-caf-500">
+          </div>
+          <button onclick="location.href='allocataire.html'" class="w-full bg-caf-700 text-white rounded-lg py-2.5 font-semibold text-sm hover:bg-caf-800 transition-colors">Se connecter</button>
+          <p class="text-center text-xs text-gray-400">Mot de passe oublié ?</p>
+        </div>
+      </div>
+      
+      <!-- Partenaire form -->
+      <div id="partenaire-tab" class="login-tab p-8 hidden">
+        <p class="text-sm text-gray-500 mb-6">Connectez-vous à l'espace partenaire avec votre email professionnel.</p>
+        <div class="space-y-4">
+          <div>
+            <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide block mb-1">Email professionnel</label>
+            <input type="email" value="contact@judolimoges.fr" class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide block mb-1">Mot de passe</label>
+            <input type="password" value="••••••••••" class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm">
+          </div>
+          <button onclick="location.href='partenaire.html'" class="w-full bg-caf-700 text-white rounded-lg py-2.5 font-semibold text-sm hover:bg-caf-800 transition-colors">Se connecter</button>
+          <p class="text-center text-xs text-gray-400">Mot de passe oublié ?</p>
+        </div>
+      </div>
+      
+      <!-- Agent form -->
+      <div id="agent-tab" class="login-tab p-8 hidden">
+        <p class="text-sm text-gray-500 mb-6">Connectez-vous avec votre code agent CAF.</p>
+        <div class="space-y-4">
+          <div>
+            <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide block mb-1">Code agent</label>
+            <input type="text" value="P0042871" class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-mono">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide block mb-1">Mot de passe</label>
+            <input type="password" value="••••••••••" class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm">
+          </div>
+          <button onclick="location.href='backoffice.html'" class="w-full bg-caf-700 text-white rounded-lg py-2.5 font-semibold text-sm hover:bg-caf-800 transition-colors">Se connecter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setTab(activeId) {
+    // Hide all tabs
+    const tabs = document.querySelectorAll('.login-tab');
+    tabs.forEach(tab => tab.classList.add('hidden'));
+    
+    // Show active tab
+    document.getElementById(activeId).classList.remove('hidden');
+    
+    // Update tab buttons
+    const tabButtons = document.querySelectorAll('.tab-login');
+    tabButtons.forEach(btn => {
+      btn.classList.remove('text-caf-700', 'border-caf-700', 'bg-caf-50', 'border-b-2');
+      btn.classList.add('text-gray-400');
+    });
+    
+    // Style active button
+    const activeButton = document.querySelector(`[onclick="setTab('${activeId}')"]`);
+    if (activeButton) {
+      activeButton.classList.remove('text-gray-400');
+      activeButton.classList.add('text-caf-700', 'border-caf-700', 'bg-caf-50', 'border-b-2');
+    }
+  }
+</script>
+</body>
+</html>

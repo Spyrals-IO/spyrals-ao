@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace partenaire — Tickets Loisirs CAF 87</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            caf: { 50:'#eef4ff', 100:'#dae6ff', 200:'#bdd1ff', 300:'#90b2ff', 400:'#5d87ff', 500:'#3a62f5', 600:'#2544e8', 700:'#1d34d4', 800:'#1e2dac', 900:'#1e2d88', 950:'#161d54' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .nav-btn { transition: all .15s; }
+    .nav-btn.active { background: #1e2dac; color: white; }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Mini Navigation -->
+<div class="bg-caf-950 text-white px-4 py-2 sticky top-0 z-50 shadow-lg">
+  <div class="max-w-7xl mx-auto flex items-center gap-1 flex-wrap">
+    <a href="index.html" class="text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📋 Index</a>
+    <span class="text-xs text-caf-300 mx-2">|</span>
+    <a href="login.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🔐</a>
+    <a href="activation.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">✉️</a>
+    <a href="allocataire.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">👤</a>
+    <a href="qr-gen.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🎫</a>
+    <a href="qr-display.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📱</a>
+    <a href="partenaire.html" class="nav-btn active text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🏢</a>
+    <a href="scan.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📷</a>
+    <a href="backoffice.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">⚙️</a>
+    <a href="bo-partenaires.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📋</a>
+    <a href="bo-paiements.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">💳</a>
+  </div>
+</div>
+
+<!-- Partner Dashboard -->
+<div class="min-h-screen bg-gray-50">
+  <header class="bg-caf-800 text-white px-4 py-3 shadow">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="font-bold">Judo Club Limoges</p>
+        <p class="text-xs text-caf-300">Espace partenaire · Campagne 2026/2027</p>
+      </div>
+      <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center font-bold text-sm">J</div>
+    </div>
+  </header>
+  
+  <nav class="bg-white border-b border-gray-200 px-4 flex gap-1">
+    <button class="px-4 py-3 text-sm font-medium text-caf-700 border-b-2 border-caf-700">📊 Tableau de bord</button>
+    <button onclick="location.href='scan.html'" class="px-4 py-3 text-sm text-gray-500 hover:text-gray-700">📷 Scanner un QR code</button>
+    <button class="px-4 py-3 text-sm text-gray-500 hover:text-gray-700">👥 Comptes employés</button>
+    <button class="px-4 py-3 text-sm text-gray-500 hover:text-gray-700">📄 Exports PDF</button>
+  </nav>
+  
+  <main class="max-w-2xl mx-auto p-4 space-y-4">
+    
+    <!-- Welcome -->
+    <div class="bg-caf-50 border border-caf-100 rounded-2xl p-4 text-center">
+      <h2 class="font-bold text-caf-800 text-lg mb-1">Judo Club Limoges</h2>
+      <p class="text-sm text-caf-600">Campagne 2026/2027 — Partenaire conventionné</p>
+    </div>
+    
+    <!-- Scan CTA -->
+    <button onclick="location.href='scan.html'" class="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-2xl py-4 font-bold flex items-center justify-center gap-2 shadow-lg transition-colors">
+      <span class="text-2xl">📷</span> Scanner un QR code allocataire
+    </button>
+    
+    <!-- Paiements en attente -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+        <h3 class="font-semibold text-gray-700 text-sm">Paiements en attente</h3>
+        <button class="text-xs text-caf-600 font-medium">Exporter PDF</button>
+      </div>
+      <div class="divide-y divide-gray-50">
+        <div class="flex items-center gap-3 px-4 py-3">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-800">Lucas Dupont</p>
+            <p class="text-xs text-gray-400">Scanné le 28/04/2026</p>
+          </div>
+          <span class="font-bold text-orange-500 text-sm">60 €</span>
+        </div>
+        <div class="flex items-center gap-3 px-4 py-3">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-800">Théo Martin</p>
+            <p class="text-xs text-gray-400">Scanné le 25/04/2026</p>
+          </div>
+          <span class="font-bold text-orange-500 text-sm">80 €</span>
+        </div>
+        <div class="flex items-center gap-3 px-4 py-3">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-800">Sarah Bonnet</p>
+            <p class="text-xs text-gray-400">Scanné le 22/04/2026</p>
+          </div>
+          <span class="font-bold text-orange-500 text-sm">70 €</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Comptes employés -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+        <h3 class="font-semibold text-gray-700 text-sm">Comptes employés</h3>
+        <button class="text-xs bg-caf-700 text-white px-3 py-1 rounded-full hover:bg-caf-800">+ Nouveau compte</button>
+      </div>
+      <div class="divide-y divide-gray-50">
+        <div class="flex items-center gap-3 px-4 py-3">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-800">marie.coach@judolimoges.fr</p>
+            <p class="text-xs text-gray-400">Créé le 15/03/2026 · Droits : scan + consultation</p>
+          </div>
+          <span class="text-green-600 text-xs font-medium bg-green-50 px-2 py-1 rounded-full">Actif</span>
+        </div>
+        <div class="flex items-center gap-3 px-4 py-3">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-800">julien.accueil@judolimoges.fr</p>
+            <p class="text-xs text-gray-400">Créé le 08/03/2026 · Droits : scan + consultation</p>
+          </div>
+          <span class="text-green-600 text-xs font-medium bg-green-50 px-2 py-1 rounded-full">Actif</span>
+        </div>
+        <div class="px-4 py-3 text-center">
+          <p class="text-xs text-gray-500">Les comptes employés peuvent scanner des QR codes et consulter les paiements, sans accès aux données de conventionnement.</p>
+        </div>
+      </div>
+    </div>
+    
+  </main>
+</div>
+
+</body>
+</html>

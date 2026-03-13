@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lots de paiement — Tickets Loisirs CAF 87</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            caf: { 50:'#eef4ff', 100:'#dae6ff', 200:'#bdd1ff', 300:'#90b2ff', 400:'#5d87ff', 500:'#3a62f5', 600:'#2544e8', 700:'#1d34d4', 800:'#1e2dac', 900:'#1e2d88', 950:'#161d54' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .nav-btn { transition: all .15s; }
+    .nav-btn.active { background: #1e2dac; color: white; }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Mini Navigation -->
+<div class="bg-caf-950 text-white px-4 py-2 sticky top-0 z-50 shadow-lg">
+  <div class="max-w-7xl mx-auto flex items-center gap-1 flex-wrap">
+    <a href="index.html" class="text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📋 Index</a>
+    <span class="text-xs text-caf-300 mx-2">|</span>
+    <a href="login.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🔐</a>
+    <a href="activation.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">✉️</a>
+    <a href="allocataire.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">👤</a>
+    <a href="qr-gen.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🎫</a>
+    <a href="qr-display.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📱</a>
+    <a href="partenaire.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🏢</a>
+    <a href="scan.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📷</a>
+    <a href="backoffice.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">⚙️</a>
+    <a href="bo-partenaires.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📋</a>
+    <a href="bo-paiements.html" class="nav-btn active text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">💳</a>
+  </div>
+</div>
+
+<!-- Payments Management -->
+<div class="min-h-screen bg-gray-100 flex">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-caf-900 text-white flex flex-col">
+    <div class="p-4 border-b border-caf-800">
+      <p class="font-bold text-sm">🎫 Tickets Loisirs</p>
+      <p class="text-xs text-caf-400 mt-0.5">Back-office CAF 87</p>
+    </div>
+    <nav class="flex-1 p-3 space-y-1 mt-1">
+      <a href="backoffice.html" class="flex items-center gap-3 p-2 rounded text-sm text-caf-300 hover:bg-caf-800">
+        <span>📊</span> Dashboard
+      </a>
+      <a href="bo-partenaires.html" class="flex items-center gap-3 p-2 rounded text-sm text-caf-300 hover:bg-caf-800">
+        <span>🏢</span> Partenaires
+      </a>
+      <a href="bo-paiements.html" class="flex items-center gap-3 p-2 rounded text-sm bg-caf-800 text-white">
+        <span>💳</span> Paiements
+      </a>
+      <a href="#" class="flex items-center gap-3 p-2 rounded text-sm text-caf-300 hover:bg-caf-800">
+        <span>👥</span> Allocataires
+      </a>
+      <a href="#" class="flex items-center gap-3 p-2 rounded text-sm text-caf-300 hover:bg-caf-800">
+        <span>⚙️</span> Agents
+      </a>
+      <a href="#" class="flex items-center gap-3 p-2 rounded text-sm text-caf-300 hover:bg-caf-800">
+        <span>📄</span> Audit
+      </a>
+    </nav>
+  </aside>
+  
+  <!-- Main -->
+  <main class="flex-1 p-6 overflow-auto">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-xl font-bold text-gray-800">Lots de paiement</h1>
+        <p class="text-sm text-gray-500">Génération des fichiers TXT pour SIAS ATL</p>
+      </div>
+    </div>
+    
+    <!-- Generate new payment batch -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="font-semibold text-gray-700 mb-3">Nouveau lot de paiement</h2>
+      <div class="bg-caf-50 border border-caf-100 rounded-xl p-4 mb-4">
+        <p class="text-sm text-caf-700"><strong>689 transactions</strong> validées par les partenaires sont prêtes pour le paiement. <strong>Montant total : 48 230 €</strong></p>
+      </div>
+      <div class="bg-amber-50 border border-amber-100 rounded-xl p-3 mb-4 text-xs text-amber-700">
+        ⚠️ Le système agrège automatiquement toutes les transactions validées non encore incluses dans un lot. Ce fichier TXT sera disponible au téléchargement et ne pourra plus être modifié après confirmation.
+      </div>
+      <button class="w-full bg-caf-700 text-white rounded-xl py-3 font-bold text-sm hover:bg-caf-800 transition-colors">
+        Confirmer et générer le lot — Lot #5 (689 lignes · 48 230 €)
+      </button>
+    </div>
+    
+    <!-- Previous batches -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100">
+        <h3 class="font-semibold text-gray-700">Lots générés</h3>
+      </div>
+      
+      <div class="divide-y divide-gray-50">
+        <!-- Batch 1 -->
+        <div class="px-6 py-4 hover:bg-gray-50">
+          <div class="flex items-center justify-between">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <h4 class="font-medium text-gray-800">Lot #4</h4>
+                <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full text-xs font-medium">Généré</span>
+              </div>
+              <div class="text-sm text-gray-600 space-y-1">
+                <p>📅 Généré le 28/04/2026</p>
+                <p>📊 1 247 transactions · 89 560 €</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="bg-caf-100 text-caf-700 px-3 py-1 rounded text-sm font-medium hover:bg-caf-200">
+                📥 Télécharger
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Batch 2 -->
+        <div class="px-6 py-4 hover:bg-gray-50">
+          <div class="flex items-center justify-between">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <h4 class="font-medium text-gray-800">Lot #3</h4>
+                <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full text-xs font-medium">Généré</span>
+              </div>
+              <div class="text-sm text-gray-600 space-y-1">
+                <p>📅 Généré le 21/04/2026</p>
+                <p>📊 892 transactions · 67 340 €</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="bg-caf-100 text-caf-700 px-3 py-1 rounded text-sm font-medium hover:bg-caf-200">
+                📥 Télécharger
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

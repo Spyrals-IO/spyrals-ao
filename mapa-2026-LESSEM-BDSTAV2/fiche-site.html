@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche Site - Alpe d'Huez | StationoScope V2</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-back {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .site-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .site-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .site-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .key-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .metric-card {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            color: white;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .metric-unit {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .sections-nav {
+            background: white;
+            padding: 0;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+        }
+
+        .nav-item {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 1.2rem 1.5rem;
+            text-align: center;
+            color: #2c3e50;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            background: #f8f9fa;
+        }
+
+        .nav-link.active {
+            border-bottom-color: #3498db;
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #34495e;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 1.5rem 0;
+        }
+
+        .chart-small {
+            height: 300px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .metadata {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
+
+        .metadata-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .territory-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .territory-link {
+            padding: 0.5rem 1rem;
+            background: #e3f2fd;
+            color: #1976d2;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .territory-link:hover {
+            background: #1976d2;
+            color: white;
+        }
+
+        .map-container {
+            height: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .export-section {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .btn-export {
+            padding: 1rem 2rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-export:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(231, 76, 60, 0.4);
+        }
+
+        .tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .key-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="logo">🏔️</span>
+            <div class="breadcrumb">
+                <a href="index.html">Accueil</a>
+                <span>›</span>
+                <span>Alpe d'Huez</span>
+            </div>
+        </div>
+        <a href="index.html" class="btn-back">← Retour à la carte</a>
+    </header>
+
+    <div class="container">
+        <div class="site-header">
+            <h1 class="site-title">Alpe d'Huez</h1>
+            <p class="site-subtitle">Station moyenne - Isère (38) - Massif des Alpes</p>
+            
+            <div class="key-metrics">
+                <div class="metric-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="metric-label">Moment de puissance</div>
+                    <div class="metric-value">45 230</div>
+                    <div class="metric-unit">km·pers/h</div>
+                </div>
+                <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="metric-label">Altitude moyenne</div>
+                    <div class="metric-value">1 860</div>
+                    <div class="metric-unit">mètres</div>
+                </div>
+                <div class="metric-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="metric-label">Domaine skiable</div>
+                    <div class="metric-value">1 860 - 3 330</div>
+                    <div class="metric-unit">m</div>
+                </div>
+                <div class="metric-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="metric-label">Âge moyen du parc</div>
+                    <div class="metric-value">28</div>
+                    <div class="metric-unit">années</div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sections-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#domaine" class="nav-link active">⛷️ Domaine skiable</a></li>
+                <li class="nav-item"><a href="#enneigement" class="nav-link">❄️ Enneigement</a></li>
+                <li class="nav-item"><a href="#bati" class="nav-link">🏘️ Bâti</a></li>
+                <li class="nav-item"><a href="#emploi" class="nav-link">👥 Emploi</a></li>
+                <li class="nav-item"><a href="#territoire" class="nav-link">📍 Territoire</a></li>
+            </ul>
+        </nav>
+
+        <section id="domaine" class="section">
+            <h2 class="section-title">⛷️ Caractéristiques du domaine skiable</h2>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Type de station</div>
+                    <div class="info-value">Station moyenne</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Moment de puissance</div>
+                    <div class="info-value">45 230 km·pers/h</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Altitude minimum</div>
+                    <div class="info-value">1 860 m</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Altitude maximum</div>
+                    <div class="info-value">3 330 m</div>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">Distribution altitudinale du moment de puissance</h3>
+            <div class="chart-container">
+                <canvas id="altitudeChart"></canvas>
+            </div>
+            <div class="metadata">
+                <div class="metadata-title">📊 Source des données</div>
+                Source: SNTF - Remontées mécaniques, 2024 | Millésime: 2024 | Méthodologie: Calcul du moment de puissance par tranche altitudinale
+            </div>
+
+            <h3 class="section-subtitle">Répartition des pentes</h3>
+            <div class="chart-container chart-small">
+                <canvas id="slopesChart"></canvas>
+            </div>
+
+            <h3 class="section-subtitle">Orientations du domaine skiable</h3>
+            <div class="chart-container chart-small">
+                <canvas id="orientationChart"></canvas>
+            </div>
+        </section>
+
+        <section id="enneigement" class="section">
+            <h2 class="section-title">❄️ Enneigement et climat</h2>
+
+            <h3 class="section-subtitle">Nombre de jours d'enneigement à l'altitude moyenne</h3>
+            <p style="color: #7f8c8d; margin-bottom: 1rem;">
+                Au moins 100 kg/m² de neige au sol - Altitude moyenne: 1 860 m
+            </p>
+            <div class="chart-container">
+                <canvas id="snowChart"></canvas>
+            </div>
+            <div class="metadata">
+                <div class="metadata-title">📊 Source des données</div>
+                Source: SAFRAN (Météo-France) | Millésime: Projections 2024 | Scénarios: GIEC AR6 (SSP2-4.5 et SSP5-8.5)
+            </div>
+
+            <div class="info-grid" style="margin-top: 2rem;">
+                <div class="info-item">
+                    <div class="info-label">Référence historique (1976-2005)</div>
+                    <div class="info-value">142 jours/an</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Projection +2°C (2030)</div>
+                    <div class="info-value">118 jours/an (-17%)</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Projection +4°C (2100)</div>
+                    <div class="info-value">78 jours/an (-45%)</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Probabilité 90j skiables (actuel)</div>
+                    <div class="info-value">87%</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bati" class="section">
+            <h2 class="section-title">🏘️ Bâti et urbanisation</h2>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Surface développée</div>
+                    <div class="info-value">286 450 m²</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Surface moyenne par bâtiment</div>
+                    <div class="info-value">145 m²</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Indice de mitage</div>
+                    <div class="info-value">0.52</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Indice de verticalité</div>
+                    <div class="info-value">0.48</div>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">Diagnostic de Performance Énergétique (DPE)</h3>
+            <div class="chart-container chart-small">
+                <canvas id="dpeChart"></canvas>
+            </div>
+            <div class="metadata">
+                <div class="metadata-title">📊 Source des données</div>
+                Source: ADEME - Base DPE, 2024 | Millésime: 2024 | Note: Diagnostics réalisés sur 68% des logements
+            </div>
+        </section>
+
+        <section id="emploi" class="section">
+            <h2 class="section-title">👥 Emploi touristique</h2>
+
+            <h3 class="section-subtitle">Emplois mensuels dans le tourisme</h3>
+            <div class="chart-container chart-small">
+                <canvas id="emploiChart"></canvas>
+            </div>
+            <div class="metadata">
+                <div class="metadata-title">📊 Source des données</div>
+                Source: INSEE - Emploi salarié, 2023 | Millésime: 2023 | Secteurs: Hébergement, restauration, remontées mécaniques
+            </div>
+        </section>
+
+        <section id="territoire" class="section">
+            <h2 class="section-title">📍 Contexte territorial</h2>
+
+            <h3 class="section-subtitle">Autorité Organisatrice</h3>
+            <p style="margin-bottom: 1rem;">
+                <a href="fiche-territoire.html" class="territory-link">Régie des Remontées Mécaniques de l'Alpe d'Huez</a>
+            </p>
+
+            <h3 class="section-subtitle">Communes supports</h3>
+            <div class="territory-links">
+                <a href="fiche-territoire.html" class="territory-link">Huez (38191)</a>
+                <a href="fiche-territoire.html" class="territory-link">Vaujany (38529)</a>
+                <a href="fiche-territoire.html" class="territory-link">Oz (38289)</a>
+            </div>
+
+            <h3 class="section-subtitle">Territoires de rattachement</h3>
+            <div class="territory-links">
+                <a href="fiche-territoire.html" class="territory-link">CC de l'Oisans (243800604)</a>
+                <a href="fiche-territoire.html" class="territory-link">Département de l'Isère (38)</a>
+                <a href="fiche-territoire.html" class="territory-link">Région Auvergne-Rhône-Alpes</a>
+                <a href="fiche-territoire.html" class="territory-link">Espace valléen Romanche-Oisans</a>
+            </div>
+
+            <h3 class="section-subtitle">Localisation</h3>
+            <div class="map-container">
+                <div id="territoryMap"></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="export-section">
+        <button class="btn-export" onclick="alert('Export PDF en cours...')">📄 Exporter en PDF</button>
+    </div>
+
+    <script>
+        // Configuration Chart.js
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+        Chart.defaults.color = '#2c3e50';
+
+        // Graphique distribution altitudinale
+        new Chart(document.getElementById('altitudeChart'), {
+            type: 'bar',
+            data: {
+                labels: ['1860-2000m', '2000-2200m', '2200-2400m', '2400-2600m', '2600-2800m', '2800-3000m', '3000-3330m'],
+                datasets: [{
+                    label: 'Moment de puissance (km·pers/h)',
+                    data: [8500, 12300, 9800, 6200, 4800, 2400, 1230],
+                    backgroundColor: 'rgba(52, 152, 219, 0.8)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.parsed.y.toLocaleString()} km·pers/h`
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'km·pers/h' } }
+                }
+            }
+        });
+
+        // Graphique pentes
+        new Chart(document.getElementById('slopesChart'), {
+            type: 'line',
+            data: {
+                labels: ['0-10°', '10-20°', '20-30°', '30-40°', '40-50°'],
+                datasets: [
+                    {
+                        label: 'Alpe d\'Huez',
+                        data: [15, 35, 32, 15, 3],
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Moyenne stations Isère',
+                        data: [18, 32, 28, 18, 4],
+                        borderColor: 'rgba(231, 76, 60, 1)',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4,
+                        borderDash: [5, 5],
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.dataset.label}: ${context.parsed.y}% de la surface`
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 40, title: { display: true, text: 'Part de la surface (%)' } }
+                }
+            }
+        });
+
+        // Graphique orientations (radar)
+        new Chart(document.getElementById('orientationChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Nord', 'Nord-Est', 'Est', 'Sud-Est', 'Sud', 'Sud-Ouest', 'Ouest', 'Nord-Ouest'],
+                datasets: [{
+                    label: 'Alpe d\'Huez',
+                    data: [8, 15, 22, 18, 12, 10, 8, 7],
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 25
+                    }
+                }
+            }
+        });
+
+        // Graphique enneigement
+        new Chart(document.getElementById('snowChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Référence 1976-2005', 'Historique récent', '+2°C (2030)', '+2.7°C (2050)', '+4°C (2100)'],
+                datasets: [
+                    {
+                        label: '80e centile',
+                        data: [165, 160, 140, 125, 95],
+                        backgroundColor: 'rgba(52, 152, 219, 0.3)',
+                    },
+                    {
+                        label: 'Médiane',
+                        data: [142, 138, 118, 102, 78],
+                        backgroundColor: 'rgba(52, 152, 219, 0.6)',
+                    },
+                    {
+                        label: '20e centile',
+                        data: [120, 115, 95, 78, 55],
+                        backgroundColor: 'rgba(52, 152, 219, 0.9)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.dataset.label}: ${context.parsed.y} jours`
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 180, title: { display: true, text: 'Nombre de jours "skiables"' } }
+                }
+            }
+        });
+
+        // Graphique DPE
+        new Chart(document.getElementById('dpeChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+                datasets: [{
+                    data: [2, 8, 18, 28, 25, 14, 5],
+                    backgroundColor: [
+                        'rgba(0, 153, 51, 0.8)',
+                        'rgba(51, 204, 51, 0.8)',
+                        'rgba(153, 204, 51, 0.8)',
+                        'rgba(255, 255, 0, 0.8)',
+                        'rgba(255, 153, 0, 0.8)',
+                        'rgba(255, 51, 0, 0.8)',
+                        'rgba(204, 0, 0, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `Classe ${context.label}: ${context.parsed}% des logements`
+                        }
+                    }
+                }
+            }
+        });
+
+        // Graphique emploi
+        new Chart(document.getElementById('emploiChart'), {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+                datasets: [{
+                    label: 'Emplois tourisme',
+                    data: [2850, 2920, 2780, 1650, 850, 920, 1580, 1720, 980, 850, 1250, 2450],
+                    borderColor: 'rgba(46, 204, 113, 1)',
+                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.parsed.y} emplois`
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Nombre d\'emplois' } }
+                }
+            }
+        });
+
+        // Carte du territoire
+        const territoryMap = new maplibregl.Map({
+            container: 'territoryMap',
+            style: {
+                version: 8,
+                sources: {
+                    'raster-tiles': {
+                        type: 'raster',
+                        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                        tileSize: 256
+                    }
+                },
+                layers: [{
+                    id: 'simple-tiles',
+                    type: 'raster',
+                    source: 'raster-tiles'
+                }]
+            },
+            center: [6.0683, 45.0931],
+            zoom: 12
+        });
+
+        // Ajouter un marqueur
+        new maplibregl.Marker({color: '#e74c3c'})
+            .setLngLat([6.0683, 45.0931])
+            .addTo(territoryMap);
+    </script>
+</body>
+</html>

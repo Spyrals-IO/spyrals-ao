@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StationoScope V2 - INRAE LESSEM</title>
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        #map {
+            flex: 1;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 380px;
+            background: white;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.6rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .sidebar-content {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .thematic-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .thematic-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .attribute-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .attribute-item {
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .attribute-item:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+
+        .attribute-item.active {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+
+        .attribute-icon {
+            width: 24px;
+            height: 24px;
+            background: #3498db;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .legend {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .legend-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #2c3e50;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .map-control-btn {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .map-control-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .popup-preview {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 300px;
+            display: none;
+        }
+
+        .popup-preview.visible {
+            display: block;
+        }
+
+        .popup-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .popup-data {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+
+        .popup-link {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .popup-link:hover {
+            text-decoration: underline;
+        }
+
+        .basemap-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .basemap-option {
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .basemap-option:hover {
+            border-color: #3498db;
+        }
+
+        .basemap-option.active {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+
+        .basemap-preview {
+            width: 60px;
+            height: 40px;
+            border-radius: 4px;
+            background: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: 50vh;
+            }
+
+            .main-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">🏔️</div>
+            <div class="header-title">StationoScope V2</div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Rechercher une station, une commune, un territoire...">
+        </div>
+        <div class="auth-section">
+            <button class="btn btn-secondary">Aide</button>
+            <button class="btn btn-primary">Se connecter</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div id="map"></div>
+
+        <div class="map-controls">
+            <button class="map-control-btn" title="Zoom avant">+</button>
+            <button class="map-control-btn" title="Zoom arrière">−</button>
+            <button class="map-control-btn" title="Ma position">📍</button>
+        </div>
+
+        <div class="popup-preview visible">
+            <div class="popup-title">Alpe d'Huez</div>
+            <div class="popup-data"><strong>Type:</strong> Grande station</div>
+            <div class="popup-data"><strong>Moment de puissance:</strong> 45 230 km·pers/h</div>
+            <div class="popup-data"><strong>Altitude:</strong> 1860 - 3330 m</div>
+            <a href="fiche-site.html" class="popup-link">Voir la fiche complète →</a>
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Explorer les données</h2>
+                <div class="tabs">
+                    <div class="tab active">Attributs</div>
+                    <div class="tab">Calques</div>
+                    <div class="tab">Fonds</div>
+                </div>
+            </div>
+
+            <div class="sidebar-content">
+                <div class="thematic-section">
+                    <div class="thematic-title">
+                        <span>⛷️</span>
+                        Domaine skiable / Remontées mécaniques
+                    </div>
+                    <div class="attribute-list">
+                        <div class="attribute-item active">
+                            <div class="attribute-icon">M</div>
+                            Moment de puissance
+                        </div>
+                        <div class="attribute-item">
+                            <div class="attribute-icon">⛰️</div>
+                            Altitude moyenne
+                        </div>
+                        <div class="attribute-item">
+                            <div class="attribute-icon">📊</div>
+                            Âge moyen du parc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="thematic-section">
+                    <div class="thematic-title">
+                        <span>❄️</span>
+                        Enneigement
+                    </div>
+                    <div class="attribute-list">
+                        <div class="attribute-item">
+                            <div class="attribute-icon">📅</div>
+                            Nombre de jours skiables
+                        </div>
+                        <div class="attribute-item">
+                            <div class="attribute-icon">🌡️</div>
+                            Probabilité enneigement (+2°C)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="thematic-section">
+                    <div class="thematic-title">
+                        <span>🏘️</span>
+                        Bâti
+                    </div>
+                    <div class="attribute-list">
+                        <div class="attribute-item">
+                            <div class="attribute-icon">📏</div>
+                            Surface développée
+                        </div>
+                        <div class="attribute-item">
+                            <div class="attribute-icon">🏗️</div>
+                            Indice de mitage
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-title">Légende - Moment de puissance</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #d73027;"></div>
+                        <span>Très grande station (> 30 000)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fc8d59;"></div>
+                        <span>Grande station (10 000 - 30 000)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fee090;"></div>
+                        <span>Moyenne station (3 000 - 10 000)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #91bfdb;"></div>
+                        <span>Petite station (< 3 000)</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Initialisation de la carte MapLibre
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: {
+                version: 8,
+                sources: {
+                    'raster-tiles': {
+                        type: 'raster',
+                        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        attribution: '© OpenStreetMap contributors'
+                    }
+                },
+                layers: [{
+                    id: 'background',
+                    type: 'background',
+                    paint: {'background-color': '#e0e0e0'}
+                }, {
+                    id: 'simple-tiles',
+                    type: 'raster',
+                    source: 'raster-tiles',
+                    minzoom: 0,
+                    maxzoom: 22
+                }]
+            },
+            center: [6.5, 45.5], // Alpes françaises
+            zoom: 7
+        });
+
+        // Ajouter des marqueurs pour simuler des stations
+        const stations = [
+            { name: "Alpe d'Huez", coords: [6.0683, 45.0931], power: 45230 },
+            { name: "Les Deux Alpes", coords: [6.1253, 45.0117], power: 38500 },
+            { name: "Val d'Isère", coords: [6.9803, 45.4486], power: 52000 },
+            { name: "Chamonix", coords: [6.8694, 45.9237], power: 35000 },
+            { name: "La Plagne", coords: [6.6783, 45.5133], power: 48000 },
+        ];
+
+        stations.forEach(station => {
+            const color = station.power > 30000 ? '#d73027' : 
+                         station.power > 10000 ? '#fc8d59' : 
+                         station.power > 3000 ? '#fee090' : '#91bfdb';
+            
+            const el = document.createElement('div');
+            el.className = 'marker';
+            el.style.cssText = `
+                width: 20px;
+                height: 20px;
+                background-color: ${color};
+                border: 2px solid white;
+                border-radius: 50%;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            `;
+
+            new maplibregl.Marker(el)
+                .setLngLat(station.coords)
+                .addTo(map);
+        });
+
+        // Gestion des onglets
+        document.querySelectorAll('.tab').forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const content = document.querySelector('.sidebar-content');
+                if (index === 1) {
+                    content.innerHTML = `
+                        <div class="thematic-section">
+                            <div class="thematic-title">Calques disponibles</div>
+                            <div class="attribute-list">
+                                <div class="attribute-item active">
+                                    <input type="checkbox" checked> Sites (stations)
+                                </div>
+                                <div class="attribute-item">
+                                    <input type="checkbox" checked> Communes supports
+                                </div>
+                                <div class="attribute-item">
+                                    <input type="checkbox"> Autorités organisatrices
+                                </div>
+                                <div class="attribute-item">
+                                    <input type="checkbox"> Limites administratives
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (index === 2) {
+                    content.innerHTML = `
+                        <div class="thematic-section">
+                            <div class="thematic-title">Fonds de carte</div>
+                            <div class="basemap-selector">
+                                <div class="basemap-option active">
+                                    <div class="basemap-preview" style="background: #e8e8e8;"></div>
+                                    <span>OpenStreetMap</span>
+                                </div>
+                                <div class="basemap-option">
+                                    <div class="basemap-preview" style="background: #c5e1a5;"></div>
+                                    <span>Satellite</span>
+                                </div>
+                                <div class="basemap-option">
+                                    <div class="basemap-preview" style="background: #f5f5dc;"></div>
+                                    <span>Topographique IGN</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    location.reload();
+                }
+            });
+        });
+
+        // Gestion des attributs
+        document.querySelectorAll('.attribute-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.attribute-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

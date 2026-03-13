@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tickets Loisirs CAF 87 — Maquettes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            caf: { 50:'#eef4ff', 100:'#dae6ff', 200:'#bdd1ff', 300:'#90b2ff', 400:'#5d87ff', 500:'#3a62f5', 600:'#2544e8', 700:'#1d34d4', 800:'#1e2dac', 900:'#1e2d88', 950:'#161d54' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .mockup-card { 
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+    }
+    .mockup-card:hover { 
+      transform: translateY(-2px); 
+      border-color: #1d34d4;
+      box-shadow: 0 10px 25px rgba(29, 52, 212, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-caf-50 to-gray-100 min-h-screen">
+  
+  <div class="container mx-auto px-4 py-8">
+    
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-3xl shadow-lg mb-6 border border-caf-100">
+        <span class="text-4xl">🎫</span>
+      </div>
+      <h1 class="text-4xl font-bold text-gray-800 mb-4">Tickets Loisirs CAF 87</h1>
+      <p class="text-xl text-gray-600 mb-2">Maquettes fonctionnelles</p>
+      <p class="text-sm text-gray-500">Portail de gestion et dématérialisation — Campagne 2026/2027</p>
+    </div>
+
+    <!-- Mockups Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      
+      <!-- 1. Connexion -->
+      <a href="login.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-caf-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">🔐</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Connexion</h3>
+        <p class="text-sm text-gray-500 mb-4">Multi-profils : allocataire, partenaire, agent CAF</p>
+        <div class="text-xs bg-caf-50 text-caf-700 px-3 py-1 rounded-full inline-block">Authentification</div>
+      </a>
+
+      <!-- 2. Activation compte -->
+      <a href="activation.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-green-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">✉️</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Activation compte</h3>
+        <p class="text-sm text-gray-500 mb-4">Premier accès allocataire avec SMS de vérification</p>
+        <div class="text-xs bg-green-50 text-green-700 px-3 py-1 rounded-full inline-block">Onboarding</div>
+      </a>
+
+      <!-- 3. Dashboard allocataire -->
+      <a href="allocataire.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-blue-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">👤</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Dashboard allocataire</h3>
+        <p class="text-sm text-gray-500 mb-4">Vue d'ensemble : solde, enfants, transactions</p>
+        <div class="text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-full inline-block">Espace parent</div>
+      </a>
+
+      <!-- 4. Génération QR -->
+      <a href="qr-gen.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-purple-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">🎫</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Génération QR</h3>
+        <p class="text-sm text-gray-500 mb-4">Sélection enfant, partenaire et montant</p>
+        <div class="text-xs bg-purple-50 text-purple-700 px-3 py-1 rounded-full inline-block">QR Code</div>
+      </a>
+
+      <!-- 5. QR Code Display -->
+      <a href="qr-display.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-indigo-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">📱</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">QR Code</h3>
+        <p class="text-sm text-gray-500 mb-4">Affichage QR généré + PDF imprimable</p>
+        <div class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full inline-block">Ticket</div>
+      </a>
+
+      <!-- 6. Espace partenaire -->
+      <a href="partenaire.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-orange-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">🏢</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Espace partenaire</h3>
+        <p class="text-sm text-gray-500 mb-4">Dashboard, paiements, comptes employés</p>
+        <div class="text-xs bg-orange-50 text-orange-700 px-3 py-1 rounded-full inline-block">Association</div>
+      </a>
+
+      <!-- 7. Scan QR -->
+      <a href="scan.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-gray-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">📷</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Scan QR</h3>
+        <p class="text-sm text-gray-500 mb-4">Interface caméra pour scanner un ticket</p>
+        <div class="text-xs bg-gray-50 text-gray-700 px-3 py-1 rounded-full inline-block">Caméra</div>
+      </a>
+
+      <!-- 8. Back-office CAF -->
+      <a href="backoffice.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-red-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">⚙️</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Back-office CAF</h3>
+        <p class="text-sm text-gray-500 mb-4">Dashboard administrateur, actions rapides</p>
+        <div class="text-xs bg-red-50 text-red-700 px-3 py-1 rounded-full inline-block">Administration</div>
+      </a>
+
+      <!-- 9. Gestion partenaires -->
+      <a href="bo-partenaires.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-teal-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">📋</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Gestion partenaires</h3>
+        <p class="text-sm text-gray-500 mb-4">Liste, validation, conventionnement</p>
+        <div class="text-xs bg-teal-50 text-teal-700 px-3 py-1 rounded-full inline-block">Backoffice</div>
+      </a>
+
+      <!-- 10. Lots de paiement -->
+      <a href="bo-paiements.html" class="mockup-card block bg-white rounded-2xl shadow-md p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 bg-emerald-100 rounded-xl flex items-center justify-center">
+          <span class="text-2xl">💳</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Lots de paiement</h3>
+        <p class="text-sm text-gray-500 mb-4">Génération TXT, téléchargement fichiers</p>
+        <div class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full inline-block">Paiements</div>
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-16 pt-8 border-t border-gray-200">
+      <p class="text-sm text-gray-500 mb-2">📐 Maquettes fonctionnelles — SPYRALS pour CAF de la Haute-Vienne</p>
+      <p class="text-xs text-gray-400">Stack : React 19 + Tailwind CSS 4 + Node.js 22 + PostgreSQL 17</p>
+    </div>
+
+  </div>
+</body>
+</html>

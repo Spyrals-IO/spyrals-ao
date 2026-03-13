@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan QR — Tickets Loisirs CAF 87</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            caf: { 50:'#eef4ff', 100:'#dae6ff', 200:'#bdd1ff', 300:'#90b2ff', 400:'#5d87ff', 500:'#3a62f5', 600:'#2544e8', 700:'#1d34d4', 800:'#1e2dac', 900:'#1e2d88', 950:'#161d54' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .nav-btn { transition: all .15s; }
+    .nav-btn.active { background: #1e2dac; color: white; }
+    .camera-viewfinder { background: #111; position:relative; }
+    .camera-viewfinder::before { content:''; position:absolute; inset:20%; border:2px solid rgba(255,255,255,.6); border-radius:4px; }
+    .camera-viewfinder::after { content:''; position:absolute; top:20%; left:20%; right:20%; height:2px; background:rgba(56,189,248,.8); animation: scan 2s linear infinite; }
+    @keyframes scan { 0%{top:20%} 100%{top:calc(80% - 2px)} }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Mini Navigation -->
+<div class="bg-caf-950 text-white px-4 py-2 sticky top-0 z-50 shadow-lg">
+  <div class="max-w-7xl mx-auto flex items-center gap-1 flex-wrap">
+    <a href="index.html" class="text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📋 Index</a>
+    <span class="text-xs text-caf-300 mx-2">|</span>
+    <a href="login.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🔐</a>
+    <a href="activation.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">✉️</a>
+    <a href="allocataire.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">👤</a>
+    <a href="qr-gen.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🎫</a>
+    <a href="qr-display.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📱</a>
+    <a href="partenaire.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">🏢</a>
+    <a href="scan.html" class="nav-btn active text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📷</a>
+    <a href="backoffice.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">⚙️</a>
+    <a href="bo-partenaires.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">📋</a>
+    <a href="bo-paiements.html" class="nav-btn text-xs px-3 py-1 rounded-full border border-caf-700 hover:bg-caf-800">💳</a>
+  </div>
+</div>
+
+<!-- Scan QR Screen -->
+<div class="min-h-screen bg-gray-900 flex flex-col">
+  <header class="px-4 py-3 flex items-center gap-3 text-white">
+    <button onclick="location.href='partenaire.html'" class="text-gray-300 text-sm">✕ Fermer</button>
+    <h1 class="font-bold text-center flex-1">Scanner un QR code</h1>
+  </header>
+  
+  <!-- Camera -->
+  <div class="camera-viewfinder flex-1 flex items-center justify-center" style="min-height:320px;">
+    <div class="text-center text-gray-500">
+      <p class="text-sm">📷 Caméra active</p>
+      <p class="text-xs mt-2 text-gray-600">Pointez vers le QR code de l'allocataire</p>
+    </div>
+  </div>
+  
+  <!-- Success result simulation -->
+  <div class="bg-white m-4 rounded-2xl p-6 shadow-lg">
+    <div class="text-center mb-4">
+      <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+        <span class="text-green-600 text-xl">✓</span>
+      </div>
+      <h3 class="font-bold text-gray-800 text-lg">QR code valide !</h3>
+    </div>
+    
+    <div class="bg-gray-50 rounded-xl p-4 space-y-2 mb-6">
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-600">Enfant :</span>
+        <span class="text-sm font-medium">Lucas Dupont (13 ans)</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-600">Parent :</span>
+        <span class="text-sm font-medium">Marie Dupont</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-600">Montant :</span>
+        <span class="text-lg font-bold text-caf-700">60 €</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-600">Généré le :</span>
+        <span class="text-sm font-medium">02/05/2026 14:32</span>
+      </div>
+    </div>
+    
+    <div class="space-y-3">
+      <button class="w-full bg-green-600 text-white rounded-xl py-4 font-bold text-lg hover:bg-green-700 transition-colors">
+        ✓ Valider le paiement
+      </button>
+      <button onclick="location.href='partenaire.html'" class="w-full bg-gray-200 text-gray-700 rounded-xl py-3 font-medium hover:bg-gray-300 transition-colors">
+        Annuler
+      </button>
+    </div>
+    
+    <p class="text-xs text-gray-500 text-center mt-4">
+      En validant, vous confirmez que la prestation a été fournie à l'enfant.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
