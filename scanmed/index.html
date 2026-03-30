@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScanMed — Prototypes — SPYRALS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(0,0,0,0.3); }
+    .card-hover:hover .card-arrow { transform: translateX(4px); }
+    .card-arrow { transition: transform 0.2s ease; display: inline-block; }
+  </style>
+</head>
+<body class="min-h-screen" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0c1a3a 100%);">
+
+  <!-- Header -->
+  <header class="py-8 px-8">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl flex items-center justify-center text-xl" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">
+          💊
+        </div>
+        <div>
+          <div class="text-white font-bold text-xl tracking-tight">ScanMed</div>
+          <div class="text-blue-400 text-xs font-medium">Prototypes interactifs</div>
+        </div>
+      </div>
+      <div class="text-right">
+        <div class="text-slate-400 text-xs">AO n° 2026-A001</div>
+        <div class="text-slate-400 text-xs">Inserm CESP · Equipe Exposome et Hérédité</div>
+        <div class="text-white text-xs font-semibold mt-0.5">SPYRALS</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main class="max-w-4xl mx-auto px-8 pb-16">
+    <div class="text-center mb-14">
+      <h1 class="text-4xl font-bold text-white mb-4 tracking-tight">Principaux parcours</h1>
+      <p class="text-slate-400 text-base max-w-xl mx-auto leading-relaxed">
+        Ces prototypes illustrent notre vision de l'application avant toute phase de cadrage. Ils constituent une base de discussion pour la réunion de lancement, et non une interface définitive.
+      </p>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+
+      <!-- Card 1 — Accueil -->
+      <a href="accueil.html" class="card-hover block rounded-2xl p-7 no-underline border"
+         style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
+             style="background: linear-gradient(135deg, #1d4ed8, #2563eb);">🏠</div>
+        <h2 class="font-bold text-lg text-white mb-2">Écran d'accueil</h2>
+        <p class="text-slate-400 text-sm mb-5 leading-relaxed">
+          Liste des produits en cours, barre de recherche, et accès rapide au scan d'un nouveau médicament ou complément.
+        </p>
+        <span class="text-blue-400 text-sm font-semibold">
+          Voir la maquette <span class="card-arrow">→</span>
+        </span>
+      </a>
+
+      <!-- Card 2 — Scan -->
+      <a href="scan.html" class="card-hover block rounded-2xl p-7 no-underline border"
+         style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
+             style="background: linear-gradient(135deg, #059669, #10b981);">📷</div>
+        <h2 class="font-bold text-lg text-white mb-2">Parcours de scan</h2>
+        <p class="text-slate-400 text-sm mb-5 leading-relaxed">
+          Scan du code-barres, reconnaissance du produit, formulaire de déclaration d'une nouvelle prise et confirmation.
+        </p>
+        <span class="text-emerald-400 text-sm font-semibold">
+          Voir la maquette <span class="card-arrow">→</span>
+        </span>
+      </a>
+
+      <!-- Card 3 — Onboarding -->
+      <a href="onboarding.html" class="card-hover block rounded-2xl p-7 no-underline border"
+         style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
+             style="background: linear-gradient(135deg, #7c3aed, #8b5cf6);">👋</div>
+        <h2 class="font-bold text-lg text-white mb-2">Onboarding</h2>
+        <p class="text-slate-400 text-sm mb-5 leading-relaxed">
+          Première connexion : présentation du projet, déclaration initiale des produits en cours et demande d'autorisation notifications.
+        </p>
+        <span class="text-violet-400 text-sm font-semibold">
+          Voir la maquette <span class="card-arrow">→</span>
+        </span>
+      </a>
+
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="text-center border-t border-white/10 pt-8">
+      <p class="text-slate-500 text-xs leading-relaxed max-w-lg mx-auto">
+        Ces prototypes ne représentent pas l'interface définitive.<br>
+        La forme finale sera arrêtée en collaboration avec l'équipe de recherche et après consultation d'un panel de participants.
+      </p>
+    </div>
+  </main>
+
+</body>
+</html>
