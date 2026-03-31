@@ -47,7 +47,7 @@
     </div>
 
     <!-- Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
 
       <!-- Card 1 — Accueil -->
       <a href="accueil.html" class="card-hover block rounded-2xl p-7 no-underline border"
@@ -87,6 +87,34 @@
           Première connexion : présentation du projet, déclaration initiale des produits en cours et demande d'autorisation notifications.
         </p>
         <span class="text-violet-400 text-sm font-semibold">
+          Voir la maquette <span class="card-arrow">→</span>
+        </span>
+      </a>
+
+      <!-- Card 4 — Profil -->
+      <a href="profil.html" class="card-hover block rounded-2xl p-7 no-underline border"
+         style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
+             style="background: linear-gradient(135deg, #0891b2, #06b6d4);">👤</div>
+        <h2 class="font-bold text-lg text-white mb-2">Profil & paramètres</h2>
+        <p class="text-slate-400 text-sm mb-5 leading-relaxed">
+          Gestion du compte, toggles notifications et caméra, arrêt de la participation, confidentialité.
+        </p>
+        <span class="text-cyan-400 text-sm font-semibold">
+          Voir la maquette <span class="card-arrow">→</span>
+        </span>
+      </a>
+
+      <!-- Card 5 — Contact -->
+      <a href="contact.html" class="card-hover block rounded-2xl p-7 no-underline border"
+         style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
+             style="background: linear-gradient(135deg, #d97706, #f59e0b);">💬</div>
+        <h2 class="font-bold text-lg text-white mb-2">Nous contacter</h2>
+        <p class="text-slate-400 text-sm mb-5 leading-relaxed">
+          Formulaire de contact avec sujets prédéfinis, redirigé vers l'équipe de recherche sans stockage.
+        </p>
+        <span class="text-amber-400 text-sm font-semibold">
           Voir la maquette <span class="card-arrow">→</span>
         </span>
       </a>
